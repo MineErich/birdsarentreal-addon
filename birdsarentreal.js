@@ -7,8 +7,6 @@
     // store initial settings
     let orig_cursor;
     let orig_pointerEvents;
-    let orig_ani;
-    let orig_ani_spy;
 
 // document.addEventListener("DOMContentLoaded", (event) => {
     // init score
@@ -21,8 +19,6 @@
     // store initial settings
     orig_cursor = document.getElementById("splash").style.cursor;
     orig_pointerEvents = document.getElementsByClassName("global-header")[0].style.pointerEvents;
-    orig_ani = document.getElementById("goose").style.animation;
-    orig_ani_spy = document.getElementById("plane-video").children[0].children[0].style.animation;
 
     // add play button
     let menu = document.getElementsByClassName("header-links")[0];
@@ -140,7 +136,6 @@ function clear_game() {
 
     all_spies = document.getElementsByClassName("click_spy_cl");
     Array.from(all_spies).forEach(function (spy) {
-        console.log(spy);
         spy.setAttribute("href", spy.getAttribute("orig_link"));
         spy.style.cursor = undefined;
     });
