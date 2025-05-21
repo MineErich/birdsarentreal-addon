@@ -43,7 +43,6 @@ function startTimer(count, display) {
             clearInterval(timer);
             clear_game();
             alert("Score: " + score + "\nGo back to page ->");
-            // location.reload();
         }
     }, 1000);
 }
@@ -88,9 +87,12 @@ function click_spy(e, item) {
 // the game
 function start_game() {
 
+    click_bird_cp = click_bird;
+    click_spy_cp = click_spy;
+
     html_score.innerHTML = "<h1>score: " + score + "</h1>";
 
-    startTimer(10, document.getElementById("play_btn"));
+    startTimer(60, document.getElementById("play_btn"));
 
     document.getElementById("splash").style.cursor = "crosshair";
     document.getElementsByClassName("global-header")[0].style.pointerEvents = "none";
@@ -100,7 +102,7 @@ function start_game() {
     var bird = birds.childNodes;
     bird.forEach(function (item) {
         if (item.tagName == "IMG") {
-            item.addEventListener("click", (e) => click_bird(e, item));
+            item.addEventListener("click", (e) => click_bird_cp(e, item));
         }
     });
 
@@ -115,10 +117,12 @@ function start_game() {
 
 function spying(spies) {
     var item = spies;
-    item.addEventListener("click", (e) => click_spy(e, item));
+    item.addEventListener("click", (e) => click_spy_cp(e, item));
 
     const spy = spies.children;
     Array.from(spy).forEach(function (item) {
+        item.classList.add("click_spy_cl")
+        item.setAttribute("orig_link", item.getAttribute("href"));
         item.removeAttribute("href");
         item.style.cursor = "crosshair";
         // remove hover
@@ -131,6 +135,13 @@ function clear_game() {
     document.getElementById("splash").style.cursor = orig_cursor;
     document.getElementsByClassName("global-header")[0].style.pointerEvents = orig_pointerEvents;
 
-    click_bird = function() {};
-    click_spy = function() {};
+    click_bird_cp = function() {};
+    click_spy_cp = function() {};
+
+    all_spies = document.getElementsByClassName("click_spy_cl");
+    Array.from(all_spies).forEach(function (spy) {
+        console.log(spy);
+        spy.setAttribute("href", spy.getAttribute("orig_link"));
+        spy.style.cursor = undefined;
+    });
 }
